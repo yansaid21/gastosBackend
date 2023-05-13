@@ -5,7 +5,9 @@ import werkzeug
 from src.database import db
 from src.models.revenue import Revenue, revenue_schema, revenues_schema
 from datetime import datetime
-
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity
+from src.endpoints.users import readUser
 
 revenues = Blueprint("revenues",__name__,url_prefix="/api/v1")
 
@@ -40,9 +42,9 @@ def create(user_id):
     date_ = datetime.strptime(datte, '%Y-%m-%d %H:%M').date()
     
     revenue= Revenue(
-               value     = request.get_json().get("value",None),
-               date      = date_,
-               user_id     = user_id)
+            value     = request.get_json().get("value    ",None),
+            date      = date_,
+            user_id     = user_id)
     try:
         db.session.add(revenue)
         db.session.commit()
