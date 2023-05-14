@@ -103,7 +103,7 @@ def update(expenses_id):
 @jwt_required()
 def delete(expenses_id):
     
-    expense = Expense.query.filter_by(expenses_id=expenses_id).first()
+    expense = Expense.query.filter_by(id=expenses_id).first()
     
     if(not expense):
         return {"error": "Resource not found"}, HTTPStatus.NOT_FOUND

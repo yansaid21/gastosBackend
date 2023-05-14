@@ -117,13 +117,12 @@ def rangoFechas():
     userId=user['id']
     inicio = request.args.get('inicio')
     final = request.args.get('final')
-    user = User.query.filter_by(id=get_jwt_identity()).one_or_none()
-    if(not user):
-        return {"error": "Resource not found"}, HTTPStatus.NOT_FOUND
+    print("este es inicio", inicio)
+    print("este es final", final)
     date_inicio = datetime.strptime(inicio, '%Y-%m-%d %H:%M').date()
     date_final  = datetime.strptime(final,  '%Y-%m-%d %H:%M').date()
     
-    expense = Expense.query.order_by(Expense.id).filter(Expense.created_at >= date_inicio, Expense.created_at <= date_final,Expense.user_id==userId).all()
+    expense = Expense.query.filter(Expense.date >= date_inicio, Expense.date <= date_final, Expense.user_id == userId).all()
 
     return {"data": expenses_schema.dump(expense)}, HTTPStatus.OK
     
